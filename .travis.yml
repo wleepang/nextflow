@@ -2,7 +2,11 @@ sudo: required
 language: groovy
 jdk:
   - openjdk8
-  - oraclejdk9
+  - openjdk9
+matrix:
+  include:
+  - openjdk8
+    env: TEST_JDK=10
 services:
   - docker
 before_install:
@@ -19,7 +23,10 @@ env:
 before_script:
   - rm $HOME/.gitconfig
   - mkdir -p "$HOME/.nextflow" && echo "providers.github.auth='$NXF_GITHUB_ACCESS_TOKEN'" > "$HOME/.nextflow/scm"
+  - make assemble
 script:
-  - make assemble test install && export WITH_DOCKER='-with-docker' && ./integration-tests.sh
+  - make test install
+  - [[ $TEST_JDK ]] && source install-jdk.sh -f $TEST_JDK
+  - export WITH_DOCKER='-with-docker' && ./integration-tests.sh
 after_script:
   - bash pub-tests.sh travis
