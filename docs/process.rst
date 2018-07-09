@@ -1734,7 +1734,8 @@ Table of publish modes:
 =============== =================
  Mode           Description
 =============== =================
-symlink         Creates a `symbolic link` in the published directory for each process output file (default).
+symlink         Creates an absolute `symbolic link` in the published directory for each process output file (default).
+rellink         Creates a relative `symbolic link` in the published directory for each process output file.
 link            Creates a `hard link` in the published directory for each process output file.
 copy            Copies the output files into the published directory.
 copyNoFollow    Copies the output files into the published directory without following symlinks ie. copies the links themselves. 
